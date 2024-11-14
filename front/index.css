@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #161e27;
+    color: #f1f3f5;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    gap: 15px;
+}
+
+.logo-img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+}
+
+.logo-text {
+    color: #f1f3f5;
+}
+
+.logo-text .block {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+
+}
+
+.logo-text i {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #4a90e2;
+    margin-bottom: 0.3rem;
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #a5b4c9;
+    border-radius: 5px;
+    background-color: #161e27;
+    /* Igual ao fundo */
+    color: #fff;
+    font-size: 1rem;
+}
+
+.disabled-input {
+    background-color: #161e27;
+    /* Igual ao fundo */
+    color: #bbb;
+}
+
+.login-button {
+    width: 146px;
+    height: 48px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0085ff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin: 0 auto;
+}
+
+.login-button:hover {
+    background-color: #357ab8;
+}
+
+.footer {
+    width: 100%;
+    border-top: 1px solid #2d3e50;
+    /* Linha separadora */
+    padding: 1rem 0;
+    background-color: #161e27;
+    text-align: center;
+    color: #cbd4db;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer a {
+    color: #4a90e2;
+    /* Azul claro utilizado no projeto */
+    text-decoration: none;
+    /* Remove o sublinhado */
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    /* Adiciona sublinhado ao passar o mouse */
+}

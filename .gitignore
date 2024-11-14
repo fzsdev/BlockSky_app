@@ -1,0 +1,50 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependências
+node_modules/
+jspm_packages/
+
+# Compilação
+dist/
+build/
+
+# IDEs e editores
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Outros
+*.swp
+*.bak
+*.tmp
+*.temp
+*.pid
+*.seed
+*.pid.lock
+
+# Arquivos de pacotes
+*.tgz
+*.tar.gz
+
+# Arquivos de cache
+.cache/
+
+# Pasta de arquivos temporários
+refs/*
