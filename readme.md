@@ -66,10 +66,12 @@ Se precisar de mais alguma informação ou ajuste, por favor, nos avise!
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-Licença
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
+### Licença
 
-Contato
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE MIT](https://opensource.org/license/MIT) para mais detalhes.
+
+### Contato
+
 Para mais informações, entre em contato com os desenvolvedores:
 
-<span>[Felipe Z.](https://github.com/fzsdev)</span> <span>[Camila S.](https://github.com/c-camila)</span>
+<span>[Camila S.](https://github.com/c-camila)</span> (frontend) e <span>[Felipe Z.](https://github.com/fzsdev)</span> (backend).

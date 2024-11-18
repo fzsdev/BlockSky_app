@@ -4,12 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=device-width">
-
     <link rel="stylesheet" href="./index.css" />
-
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&family=Open+Sans+Condensed:wght@700&display=swap">
-
 </head>
 
 <body>
@@ -26,14 +23,30 @@
                     class="disabled-input">
             </div>
             <div class="form-group">
-                <label for="username">Handle @:</label>
+                <label for="username">Username | Handle @</label>
                 <input type="text" id="username"
-                    placeholder="username or email address"
-                    aria-label="Username">
+                    placeholder="Ex: xys.bsky.social" aria-label="Username">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="password">APP Password</label>
-                <input type="password" id="password" placeholder="app password"
+                <input type="password" id="password"
+                    placeholder="Your single password in BSKY"
+                    aria-label="Password">
+            </div> -->
+            <div class="form-group">
+                <div class="label-wrapper">
+                    <label for="password">APP Password</label>
+                    <div class="tooltip">
+                        <span class="tooltip-icon">?</span>
+                        <span class="tooltip-content">
+                            Para obter o App Password, acesse Settings > App
+                            Passwords >
+                            Add App Password
+                        </span>
+                    </div>
+                </div>
+                <input type="password" id="password"
+                    placeholder="Your single password in BSKY"
                     aria-label="Password">
             </div>
             <button type="submit" class="login-button">Enter</button>
@@ -41,13 +54,13 @@
     </div>
     <footer class="footer">
         <div class="footer-content">
-            2024. Desenvolvido por <a href="https://github.com/fzsdev"
-                target="_blank">Felipe Z</a> e <a
-                href="https://github.com/c-camila" target="_blank">Camila S</a>
+            © 2024. Desenvolvido por <a href="https://github.com/c-camila"
+                target="_blank">c-camila</a> e <a
+                href="https://github.com/fzsdev" target="_blank">fzsdev</a>
+            utilizada a <a href="https://opensource.org/license/MIT"
+                target="_blank">LICENSE MIT</a>.
         </div>
     </footer>
-
 </body>
-
 
 </html>

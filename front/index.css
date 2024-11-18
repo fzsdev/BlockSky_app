@@ -84,6 +84,7 @@ body {
     background-color: #161e27;
     /* Igual ao fundo */
     color: #bbb;
+
 }
 
 .login-button {
@@ -133,4 +134,57 @@ body {
 .footer a:hover {
     text-decoration: underline;
     /* Adiciona sublinhado ao passar o mouse */
+}
+
+.label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-flex;
+}
+
+.tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid #a5b4c9;
+    color: #a5b4c9;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tooltip-content {
+    visibility: hidden;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    padding: 12px;
+    background-color: #161e27;
+    border: 1px solid #2d3e50;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    z-index: 1;
+    margin-bottom: 5px;
+    width: 300px;
+    white-space: normal;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.tooltip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
