@@ -24,6 +24,10 @@ build/
 *.sln
 
 # Ambiente
+# Virtual Environment
+.venv/
+venv/
+ENV/
 .env
 .env.local
 .env.development.local
