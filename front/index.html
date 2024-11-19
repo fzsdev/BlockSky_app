@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, width=device-width">
-    <link rel="stylesheet" href="./index.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockSky - Login</title>
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&family=Open+Sans+Condensed:wght@700&display=swap">
 </head>
@@ -16,7 +17,7 @@
             <h1 class="logo-text"><span class="block">BLOCK</span><i>sky</i>
             </h1>
         </div>
-        <form class="login-form">
+        <form class="login-form" id="login-form">
             <div class="form-group">
                 <label for="service">Service</label>
                 <input type="text" id="service" value="bsky.social" disabled
@@ -25,14 +26,9 @@
             <div class="form-group">
                 <label for="username">Username | Handle @</label>
                 <input type="text" id="username"
-                    placeholder="Ex: xys.bsky.social" aria-label="Username">
+                    placeholder="Ex: xys.bsky.social" aria-label="Username"
+                    required>
             </div>
-            <!-- <div class="form-group">
-                <label for="password">APP Password</label>
-                <input type="password" id="password"
-                    placeholder="Your single password in BSKY"
-                    aria-label="Password">
-            </div> -->
             <div class="form-group">
                 <div class="label-wrapper">
                     <label for="password">APP Password</label>
@@ -40,14 +36,14 @@
                         <span class="tooltip-icon">?</span>
                         <span class="tooltip-content">
                             Para obter o App Password, acesse Settings > App
-                            Passwords >
-                            Add App Password
+                            Passwords > Add
+                            App Password
                         </span>
                     </div>
                 </div>
                 <input type="password" id="password"
                     placeholder="Your single password in BSKY"
-                    aria-label="Password">
+                    aria-label="Password" required>
             </div>
             <button type="submit" class="login-button">Enter</button>
         </form>
@@ -57,10 +53,9 @@
             © 2024. Desenvolvido por <a href="https://github.com/c-camila"
                 target="_blank">c-camila</a> e <a
                 href="https://github.com/fzsdev" target="_blank">fzsdev</a>
-            utilizada a <a href="https://opensource.org/license/MIT"
-                target="_blank">LICENSE MIT</a>.
         </div>
     </footer>
+    <script src="script.js"></script>
 </body>
 
 </html>
