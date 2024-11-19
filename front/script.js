@@ -39,6 +39,6 @@ document.getElementById('login-form').addEventListener('submit', function (event
       loginButton.disabled = false;
       loginButton.textContent = 'Enter';
       console.error('Erro:', error);
-      alert('Ocorreu um erro. Verifique o App Password.');
+      alert('Ocorreu um erro. Tente novamente mais tarde.');
     });
 });

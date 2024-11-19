@@ -20,3 +20,5 @@ pycparser~=2.22
 websockets~=13.0.1
 atproto~=0.0.52
 python-dotenv~=1.0.1
+flask~=2.3.3
+requests~=2.31.0
