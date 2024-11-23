@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+# Logs
+logs
+*.log
+npm-debug.log*
+api_reqs.txt
+
+# README.md diferente do projeto original
+README.md
+
 # Distribution / packaging
 .Python
 .idea

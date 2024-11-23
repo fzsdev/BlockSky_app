@@ -10,28 +10,30 @@ document.getElementById('login-form').addEventListener('submit', function (event
     return;
   }
 
+  console.log(`Tentando autenticar usuário: ${username}`);
+
   // Mostrar feedback visual (opcional)
   const loginButton = document.querySelector('.login-button');
   loginButton.disabled = true;
   loginButton.textContent = 'Entrando...';
 
-  fetch('/login', {
+  fetch('http://127.0.0.1:5000/login', {  // Certifique-se de que o URL está correto
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ username, password })
   })
-    .then(response => {
+    .then(response => response.json())
+    .then(data => {
       loginButton.disabled = false;
       loginButton.textContent = 'Enter';
-      return response.json();
-    })
-    .then(data => {
       if (data.success) {
+        console.log('Login bem-sucedido!');
         alert('Login bem-sucedido!');
         window.location.href = 'home.html'; // Redirecionar para home.html
       } else {
+        console.log('Falha no login. Verifique suas credenciais.');
         alert('Falha no login. Verifique suas credenciais.');
       }
     })
