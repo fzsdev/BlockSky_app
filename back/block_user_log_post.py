@@ -1,5 +1,6 @@
 import os
 import logging
+from datetime import datetime
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from flask_session import Session
@@ -15,19 +16,26 @@ app.config['SECRET_KEY'] = 'supersecretkey'  # Troque por uma chave secreta segu
 Session(app)
 
 # Configuração de logging
-log_directory = './'
+log_directory = './back'
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
 # Configuração de logging para erros
-logging.basicConfig(filename=os.path.join(log_directory, 'back/error_log.txt'), level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
+logging.basicConfig(filename=os.path.join(log_directory, 'error_log.txt'), level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
 # Configuração de logging para comunicações da API
 api_logger = logging.getLogger('api_logger')
 api_logger.setLevel(logging.DEBUG)
-api_handler = logging.FileHandler(os.path.join(log_directory, 'back/api_reqs.txt'))
+api_handler = logging.FileHandler(os.path.join(log_directory, 'api_reqs.txt'))
 api_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s:%(message)s'))
 api_logger.addHandler(api_handler)
+
+# Configuração de logging para o servidor Werkzeug
+werkzeug_logger = logging.getLogger('werkzeug')
+werkzeug_logger.setLevel(logging.INFO)
+werkzeug_handler = logging.StreamHandler()
+werkzeug_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
+werkzeug_logger.addHandler(werkzeug_handler)
 
 # Função para obter a sessão persistente
 def get_session() -> str:
@@ -57,6 +65,34 @@ def init_client(session_string: str = None) -> Client:
         # Não fazemos login aqui, pois os dados virão do frontend
 
     return client
+
+def log_post_content(post):
+    """Registra o conteúdo da postagem em um arquivo de log único."""
+    try:
+        # Cria a pasta log_post_blocked dentro da pasta back se não existir.
+        log_dir = 'back/log_post_blocked'
+        os.makedirs(log_dir, exist_ok=True)
+
+        # Nome do arquivo de log
+        filename = f"{log_dir}/blocked_accounts_log.txt"
+
+        # Formata o timestamp atual
+        timestamp = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+
+        # Cria o conteúdo do log
+        with open(filename, 'a') as file:  # Usar 'a' para adicionar ao arquivo existente
+            author = post.author.display_name
+            handle = post.author.handle
+            content = post.record.text  # Ajuste se o conteúdo estiver em outro campo.
+            file.write(f"Timestamp: {timestamp}\n")
+            file.write(f"Author: {author} ({handle})\n")
+            file.write(f"Content: {content}\n")
+            file.write(f"URI: {post.uri}\n")
+            file.write("____________________________________________________________\n")  # Adicionar uma linha de separação entre as entradas
+
+        print(f"Conteúdo da postagem registrado com sucesso em {filename}")
+    except Exception as e:
+        logging.error(f"Erro ao registrar o conteúdo da postagem: {e}")
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -121,6 +157,9 @@ def block_word():
             )
             uri = client.app.bsky.graph.block.create(client.me.did, block_record).uri
             blocked_accounts.append(author_did)
+
+            # Logar o conteúdo da postagem
+            log_post_content(item)
 
         return jsonify({
             'success': True,
