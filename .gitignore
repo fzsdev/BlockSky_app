@@ -10,6 +10,7 @@ npm-debug.log*
 # Dependências
 node_modules/
 jspm_packages/
+flask_session/
 
 # Compilação
 dist/

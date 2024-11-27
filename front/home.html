@@ -19,12 +19,12 @@
     <p class="description">
       Aqui, você pode bloquear perfis que utilize uma palavra-chave específica
       que você deseja ocultar, com ou sem hashtag. É possível bloquear até 100
-      perfis de uma só vez. Por exemplo: "#sdv" ou apenas "sdv".<br>
-      <<i>EN</i>> Here, you can block profiles that use a specific keyword,
-        with or without a hashtag. You can block up to 100 profiles at time. For
-        example: "#sdv" or just "sdv".
+      perfis de uma só vez. Por exemplo: "#sdv" ou apenas "sdv".<br><br>
+      <i>EN ></i> Here, you can block profiles that use a specific keyword,
+      with or without a hashtag. You can block up to 100 profiles at time. For
+      example: "#sdv" or just "sdv".
     </p>
-    <form class="keyword-form">
+    <form class="keyword-form" id="keyword-form">
       <div class="form-group">
         <label for="keywords">Palavra-chave</label>
         <input type="text" id="keywords"
@@ -32,8 +32,9 @@
       </div>
       <button type="submit" class="keyword-button">Iniciar</button>
     </form>
-    <div class="info-log">Info Log</div>
+    <div class="info-log" id="info-log">Info Log</div>
   </div>
+  <script src="home.js"></script>
 </body>
 
 </html>
