@@ -96,16 +96,21 @@ def log_post_content(post):
         timestamp = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
         # Cria o conteúdo do log
+        author = post.author.display_name
+        handle = post.author.handle
+        content = post.record.text
+        uri = post.uri
+
+        # Formata o conteúdo para ter no máximo 120 caracteres por linha
+        formatted_content = format_text(content, max_length=120)
+
         with open(filename, 'a', encoding='utf-8') as file:  # Usar 'a' para adicionar ao arquivo existente
-            author = post.author.display_name
-            handle = post.author.handle
-            content = post.record.text
             file.write(f"Timestamp: {timestamp}\n")
             file.write(f"Author: {author} ({handle})\n")
-            file.write(f"Content: {content}\n")
-            file.write(f"URI: {post.uri}\n")
-            file.write("____________________________________________________________________________________________________________\n")
-            file.write("\n")
+            for line in formatted_content:
+                file.write(f"{line}\n")
+            # file.write(f"URI: {uri}\n")
+            file.write("______________________________________________________________________________________________\n\n")  # Adiciona uma linha em branco após a separação
     except Exception as e:
         logging.error(f"Erro ao registrar post bloqueado: {e}")
 
@@ -117,6 +122,25 @@ def log_blocked_post(post_content, user_handle):
     # Salvar o conteúdo no arquivo
     with open(filepath, 'w', encoding='utf-8') as file:
         file.write(post_content)
+
+def format_text(text, max_length=120):
+    words = text.split()
+    lines = []
+    current_line = []
+
+    for word in words:
+        # Verifica se adicionar a próxima palavra ultrapassaria o limite de caracteres
+        if sum(len(w) for w in current_line) + len(word) + len(current_line) > max_length:
+            lines.append(' '.join(current_line))
+            current_line = [word]
+        else:
+            current_line.append(word)
+
+    # Adiciona a última linha
+    if current_line:
+        lines.append(' '.join(current_line))
+
+    return lines
 
 @app.route('/login', methods=['POST'])
 def login():
