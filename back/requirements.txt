@@ -20,5 +20,7 @@ pycparser~=2.22
 websockets~=13.0.1
 atproto~=0.0.52
 python-dotenv~=1.0.1
-flask~=2.3.3
+Flask==2.2.5
+Flask-Session==0.4.0
+Flask-Cors==5.0.0
 requests~=2.31.0
