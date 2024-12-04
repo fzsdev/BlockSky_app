@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 api_reqs.txt
