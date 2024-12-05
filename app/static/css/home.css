@@ -86,6 +86,17 @@ body {
   font-size: 1rem;
 }
 
+/* Estilos para manter a estilização consistente */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="text"]:active,
+input[type="password"]:active {
+  border-color: #a5b4c9;
+  /* Manter a cor da borda original */
+  outline: none;
+  /* Remover o outline padrão */
+}
+
 .keyword-button {
   width: 146px;
   height: 48px;

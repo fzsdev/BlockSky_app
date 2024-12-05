@@ -1,11 +1,3 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//   document.getElementById('login-button').addEventListener('click', function () {
-//     // Redirecionar para a página home.html
-//     window.location.href = 'home.html';
-//   });
-// });
-
-
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('login-button').addEventListener('click', async function () {
     // Capturar os dados dos campos username e password
@@ -22,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     try {
       // Enviar a requisição POST ao backend
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,10 +30,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Tratar a resposta do servidor
       if (response.ok && data.success) {
-        alert(data.message); // Exibe a mensagem de sucesso
         // Redirecionar para a página home.html
-        window.location.href = 'home.html';
+        window.location.href = '/home';
       } else {
+        console.error('Erro ao realizar login:', data.message);
         alert('Usuário e senha incorretos.');
       }
     } catch (error) {

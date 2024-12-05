@@ -6,12 +6,9 @@ from flask_cors import CORS
 from flask_session import Session
 from atproto import Client, models, SessionEvent, Session as AtprotoSession
 from dotenv import load_dotenv
+from app import create_app
 
-app = Flask(__name__)
-# CORS(app)  # Habilitar CORS para todas as rotas
-# habilitado a porta 5500 para o frontend
-CORS(app, origins=["http://127.0.0.1:5500"], supports_credentials=True)
-
+app = create_app()
 
 # Configuração de Flask-Session
 app.config["SESSION_TYPE"] = "filesystem"
@@ -29,9 +26,6 @@ app.config["SESSION_FILE_DIR"] = session_directory
 Session(app)
 
 # Configuração de logging
-base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Diretório de logs na raiz do projeto
 log_directory = os.path.join(base_dir, "logs")
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
@@ -160,40 +154,6 @@ def format_text(text, max_length=120):
         lines.append(" ".join(current_line))
 
     return lines
-
-
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json()
-    username = data.get("username")
-    app_password = data.get("password")
-
-    if not username or not app_password:
-        return (
-            jsonify(
-                {"success": False, "message": "Usuário e App Password são necessários."}
-            ),
-            400,
-        )
-
-    try:
-        client = Client()
-        client.login(username, app_password)
-        # Armazenar informações na sessão
-        session["handle"] = client.me.handle
-        session["did"] = client.me.did
-        session["session_string"] = client.export_session_string()
-
-        return (
-            jsonify({"success": True, "message": "Login realizado com sucesso."}),
-            200,
-        )
-    except Exception as e:
-        app.logger.error(f"Erro na autenticação: {e}")
-        return (
-            jsonify({"success": False, "message": f"Falha na autenticação: {str(e)}"}),
-            401,
-        )
 
 
 @app.route("/block_word", methods=["POST"])
