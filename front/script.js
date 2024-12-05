@@ -1,40 +1,52 @@
-document.getElementById("login-button").addEventListener("click", async () => {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+// document.addEventListener('DOMContentLoaded', function () {
+//   document.getElementById('login-button').addEventListener('click', function () {
+//     // Redirecionar para a página home.html
+//     window.location.href = 'home.html';
+//   });
+// });
 
-  if (!username || !password) {
-    alert("Por favor, preencha todos os campos.");
-    return;
-  }
 
-  try {
-    // Configuração da requisição
-    const response = await fetch("http://127.0.0.1:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "/", // Aceita qualquer resposta, como no Insomnia
-      },
-      credentials: "include", // Para incluir cookies automaticamente
-      body: JSON.stringify({ username, password }),
-    });
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('login-button').addEventListener('click', async function () {
+    // Capturar os dados dos campos username e password
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-    // Processando a resposta da API
-    const data = await response.json();
+    // Criar o objeto JSON com os dados capturados
+    const loginData = {
+      username: username,
+      password: password
+    };
 
-    if (response.ok) {
-      alert(data.message); // Exibe a mensagem retornada
-      console.log("Sucesso:", data);
+    console.log('Login Data:', loginData);
 
-      // Lida com os cookies, se necessário
-      const cookies = document.cookie; // Exibe os cookies armazenados
-      console.log("Cookies armazenados:", cookies);
-    } else {
-      console.error("Erro:", data);
-      alert(data.message || "Erro ao realizar login.");
+    try {
+      // Enviar a requisição POST ao backend
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      console.log('Response Status:', response.status);
+
+      const data = await response.json();
+
+      console.log('Response Data:', data);
+
+      // Tratar a resposta do servidor
+      if (response.ok && data.success) {
+        alert(data.message); // Exibe a mensagem de sucesso
+        // Redirecionar para a página home.html
+        window.location.href = 'home.html';
+      } else {
+        alert('Usuário e senha incorretos.');
+      }
+    } catch (error) {
+      console.error('Erro ao realizar login:', error);
+      alert('Erro ao realizar login. Por favor, tente novamente.');
     }
-  } catch (error) {
-    console.error("Erro na conexão com o servidor:", error);
-    alert("Falha ao conectar ao servidor. Detalhes no console.");
-  }
+  });
 });
