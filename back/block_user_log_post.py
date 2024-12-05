@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 # CORS(app)  # Habilitar CORS para todas as rotas
+# habilitado a porta 5500 para o frontend
 CORS(app, origins=["http://127.0.0.1:5500"], supports_credentials=True)
 
 
