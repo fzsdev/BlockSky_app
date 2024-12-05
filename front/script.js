@@ -13,11 +13,7 @@ document.getElementById("login-button").addEventListener("click", async () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-<<<<<<< HEAD
         "Accept": "/", // Aceita qualquer resposta, como no Insomnia
-=======
-        "Accept": "*/*", // Aceita qualquer resposta, como no Insomnia
->>>>>>> fa53e07 (refatoração do formulário de login e remoção de código desnecessário)
       },
       credentials: "include", // Para incluir cookies automaticamente
       body: JSON.stringify({ username, password }),
@@ -40,10 +36,5 @@ document.getElementById("login-button").addEventListener("click", async () => {
   } catch (error) {
     console.error("Erro na conexão com o servidor:", error);
     alert("Falha ao conectar ao servidor. Detalhes no console.");
-<<<<<<< HEAD
-  }
-});
-=======
   }
 });
->>>>>>> fa53e07 (refatoração do formulário de login e remoção de código desnecessário)
