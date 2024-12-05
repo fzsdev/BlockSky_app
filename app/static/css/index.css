@@ -43,7 +43,6 @@ body {
 .logo-text .block {
     font-family: 'Open Sans Condensed', sans-serif;
     font-weight: 700;
-
 }
 
 .logo-text i {
@@ -75,16 +74,24 @@ body {
     border: 1px solid #a5b4c9;
     border-radius: 5px;
     background-color: #161e27;
-    /* Igual ao fundo */
     color: #fff;
     font-size: 1rem;
 }
 
+/* Estilos para manter a estilização consistente */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="text"]:active,
+input[type="password"]:active {
+    border-color: #a5b4c9;
+    /* Manter a cor da borda original */
+    outline: none;
+    /* Remover o outline padrão */
+}
+
 .disabled-input {
     background-color: #161e27;
-    /* Igual ao fundo */
     color: #bbb;
-
 }
 
 .login-button {
@@ -109,7 +116,6 @@ body {
 .footer {
     width: 100%;
     border-top: 1px solid #2d3e50;
-    /* Linha separadora */
     padding: 1rem 0;
     background-color: #161e27;
     text-align: center;
@@ -126,14 +132,11 @@ body {
 
 .footer a {
     color: #4a90e2;
-    /* Azul claro utilizado no projeto */
     text-decoration: none;
-    /* Remove o sublinhado */
 }
 
 .footer a:hover {
     text-decoration: underline;
-    /* Adiciona sublinhado ao passar o mouse */
 }
 
 .label-wrapper {

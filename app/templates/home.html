@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BLOCKsky - Keyword Setup</title>
-  <link rel="stylesheet" href="./home.css">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/home.css') }}">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&family=Open+Sans+Condensed:wght@700&display=swap">
 </head>
@@ -13,7 +14,8 @@
 <body>
   <div class="keyword-setup-container">
     <div class="logo">
-      <img src="./assets/logo.svg" alt="BLOCKsky Logo" class="logo-img">
+      <img src="{{ url_for('static', filename='assets/logo.svg') }}"
+        alt="BLOCKsky Logo" class="logo-img">
       <h1 class="logo-text"><span class="block">BLOCK</span><i>sky</i></h1>
     </div>
     <p class="description">
