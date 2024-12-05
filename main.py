@@ -26,7 +26,7 @@ app.config["SESSION_FILE_DIR"] = session_directory
 Session(app)
 
 # Configuração de logging
-log_directory = os.path.join(base_dir, "logs")
+log_directory = os.path.join(base_dir, "app", "logs")
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 

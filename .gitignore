@@ -54,3 +54,7 @@ ENV/
 
 # Pasta de arquivos temporários
 refs/*
+
+# Python
+__pycache__/
+*.pyc
