@@ -1,7 +1,7 @@
 import os
 import logging
 from datetime import datetime
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, send_file
 from flask_cors import CORS
 from flask_session import Session
 from atproto import Client, models, SessionEvent, Session as AtprotoSession
@@ -56,6 +56,9 @@ werkzeug_handler.setFormatter(
 )
 werkzeug_logger.addHandler(werkzeug_handler)
 
+# Remover o log do console
+logging.getLogger("werkzeug").propagate = False
+
 
 # Função para obter a sessão persistente
 def get_session() -> str:
@@ -88,6 +91,24 @@ def init_client(session_string: str = None) -> Client:
         # Não fazemos login aqui, pois os dados virão do frontend
 
     return client
+
+
+def format_text(text, max_length=120):
+    """Format text to have a maximum number of characters per line."""
+    words = text.split()
+    lines = []
+    current_line = ""
+    for word in words:
+        if len(current_line) + len(word) + 1 > max_length:
+            lines.append(current_line)
+            current_line = word
+        else:
+            if current_line:
+                current_line += " "
+            current_line += word
+    if current_line:
+        lines.append(current_line)
+    return lines
 
 
 def log_post_content(post):
@@ -123,37 +144,25 @@ def log_post_content(post):
         logging.error(f"Erro ao registrar post bloqueado: {e}")
 
 
-def log_blocked_post(post_content, user_handle):
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{user_handle}_{timestamp}.txt"
-    filepath = os.path.join(log_blocked_directory, filename)
+def log_blocked_word(word):
+    """Registra a palavra bloqueada em um arquivo de log único."""
+    try:
+        # Nome do arquivo de log dentro de 'logs'
+        filename = os.path.join(log_blocked_directory, "blocked_accounts_log.txt")
 
-    # Salvar o conteúdo no arquivo
-    with open(filepath, "w", encoding="utf-8") as file:
-        file.write(post_content)
+        # Formata o timestamp atual
+        timestamp = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-
-def format_text(text, max_length=120):
-    words = text.split()
-    lines = []
-    current_line = []
-
-    for word in words:
-        # Verifica se adicionar a próxima palavra ultrapassaria o limite de caracteres
-        if (
-            sum(len(w) for w in current_line) + len(word) + len(current_line)
-            > max_length
-        ):
-            lines.append(" ".join(current_line))
-            current_line = [word]
-        else:
-            current_line.append(word)
-
-    # Adiciona a última linha
-    if current_line:
-        lines.append(" ".join(current_line))
-
-    return lines
+        with open(
+            filename, "a", encoding="utf-8"
+        ) as file:  # Usar 'a' para adicionar ao arquivo existente
+            file.write(f"Timestamp: {timestamp}\n")
+            file.write(f"Blocked Word: {word}\n")
+            file.write(
+                "______________________________________________________________________________________________\n\n"
+            )  # Adiciona uma linha em branco após a separação
+    except Exception as e:
+        logging.error(f"Erro ao registrar palavra bloqueada: {e}")
 
 
 @app.route("/block_word", methods=["POST"])
@@ -202,39 +211,52 @@ def block_word():
             # Logar o conteúdo da postagem
             log_post_content(item)
 
-        # Exemplo de processamento de posts e bloqueio
-        for post in search_response.posts:
-            post_content = post["record"]["text"]
-            user_handle = post["author"]["handle"]
+        if blocked_accounts:
+            # Registrar a palavra bloqueada
+            log_blocked_word(word)
 
-            # Lógica para identificar posts que devem ser bloqueados
-            if should_block_post(post_content):
-                # Bloqueia a conta do usuário
-                client.mute_account(account=user_handle)
-
-                # Registra o post bloqueado
-                log_blocked_post(post_content, user_handle)
-
-                # Log adicional (opcional)
-                api_logger.info(
-                    f"Usuário {user_handle} bloqueado. Post registrado em {log_blocked_directory}"
-                )
-
-        return (
-            jsonify(
-                {
-                    "success": True,
-                    "message": f'Contas que usaram a palavra "{word}" foram bloqueadas com sucesso.',
-                    "blocked_accounts": blocked_accounts,
-                }
-            ),
-            200,
-        )
+            return (
+                jsonify(
+                    {
+                        "success": True,
+                        "message": f'Contas que usaram a palavra "{word}" foram bloqueadas com sucesso.',
+                        "blocked_accounts": blocked_accounts,
+                    }
+                ),
+                200,
+            )
+        else:
+            return (
+                jsonify(
+                    {
+                        "success": True,
+                        "message": f'Nenhuma conta encontrada usando a palavra "{word}".',
+                    }
+                ),
+                200,
+            )
     except Exception as e:
         app.logger.error(f"Erro ao bloquear contas: {e}")
         return (
             jsonify(
                 {"success": False, "message": f"Erro ao bloquear contas: {str(e)}"}
+            ),
+            500,
+        )
+
+
+@app.route("/get_log", methods=["GET"])
+def get_log():
+    try:
+        log_file_path = os.path.join(log_blocked_directory, "blocked_accounts_log.txt")
+        with open(log_file_path, "r", encoding="utf-8") as file:
+            log_content = file.read()
+        return jsonify({"success": True, "log": log_content}), 200
+    except Exception as e:
+        app.logger.error(f"Erro ao ler o arquivo de log: {e}")
+        return (
+            jsonify(
+                {"success": False, "message": f"Erro ao ler o arquivo de log: {str(e)}"}
             ),
             500,
         )

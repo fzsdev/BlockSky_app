@@ -82,19 +82,7 @@ body {
   border: 1px solid #a5b4c9;
   border-radius: 5px;
   background-color: #161e27;
-  color: #fff;
   font-size: 1rem;
-}
-
-/* Estilos para manter a estilização consistente */
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="text"]:active,
-input[type="password"]:active {
-  border-color: #a5b4c9;
-  /* Manter a cor da borda original */
-  outline: none;
-  /* Remover o outline padrão */
 }
 
 .keyword-button {
@@ -121,11 +109,23 @@ input[type="password"]:active {
   text-align: left;
   border-top: 1px solid #2d3e50;
   padding-top: 1rem;
-  padding-left: 15px;
+
   padding-right: 15px;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  position: relative;
+  width: 200%;
+  max-width: fit-content;
+  /* Define a largura máxima */
+  max-height: 300px;
+  overflow-y: auto;
   word-wrap: break-word;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.separator {
+  display: block;
+  width: 100%;
+  border: none;
+  border-top: 1px solid #a5b4c9;
+  margin: 1rem 0;
 }
