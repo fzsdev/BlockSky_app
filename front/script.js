@@ -1,56 +1,40 @@
-document.getElementById('login-form').addEventListener('submit', function (event) {
-  event.preventDefault();
+document.getElementById("login-button").addEventListener("click", async () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
-
-  // Validação básica
   if (!username || !password) {
-    alert('Por favor, preencha todos os campos.');
+    alert("Por favor, preencha todos os campos.");
     return;
   }
 
-  console.log(`Tentando autenticar usuário: ${username}`);
-
-  // Mostrar feedback visual (opcional)
-  const loginButton = document.querySelector('.login-button');
-  loginButton.disabled = true;
-  loginButton.textContent = 'Entrando...';
-
-  fetch('http://127.0.0.1:5000/login', {  // Certifique-se de que o URL está correto
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, password })
-  })
-    .then(response => {
-      console.log('Resposta recebida do backend:', response);
-      if (!response.ok) {
-        throw new Error('Erro na resposta do servidor');
-      }
-      return response.json();
-    })
-    .then(data => {
-      loginButton.disabled = false;
-      loginButton.textContent = 'Entrar';
-      console.log('Dados recebidos do backend:', data);
-      if (data.success) {
-        console.log('Login bem-sucedido!');
-        alert('Login bem-sucedido!');
-        // Armazenar tokens na sessão do navegador
-        sessionStorage.setItem('access_token', data.access_token);
-        sessionStorage.setItem('refresh_token', data.refresh_token);
-        window.location.href = 'home.html'; // Redirecionar para home.html
-      } else {
-        console.log('Falha no login. Verifique suas credenciais.');
-        alert(`Falha no login: ${data.message}`);
-      }
-    })
-    .catch(error => {
-      loginButton.disabled = false;
-      loginButton.textContent = 'Entrar';
-      console.error('Erro:', error);
-      alert('Ocorreu um erro. Tente novamente mais tarde.');
+  try {
+    // Configuração da requisição
+    const response = await fetch("http://127.0.0.1:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "/", // Aceita qualquer resposta, como no Insomnia
+      },
+      credentials: "include", // Para incluir cookies automaticamente
+      body: JSON.stringify({ username, password }),
     });
+
+    // Processando a resposta da API
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message); // Exibe a mensagem retornada
+      console.log("Sucesso:", data);
+
+      // Lida com os cookies, se necessário
+      const cookies = document.cookie; // Exibe os cookies armazenados
+      console.log("Cookies armazenados:", cookies);
+    } else {
+      console.error("Erro:", data);
+      alert(data.message || "Erro ao realizar login.");
+    }
+  } catch (error) {
+    console.error("Erro na conexão com o servidor:", error);
+    alert("Falha ao conectar ao servidor. Detalhes no console.");
+  }
 });
