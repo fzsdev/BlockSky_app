@@ -83,10 +83,12 @@ body {
   border-radius: 5px;
   background-color: #161e27;
   font-size: 1rem;
+  color: #bbb;
+  margin-bottom: 1.5rem;
 }
 
 .keyword-button {
-  width: 146px;
+  width: 200px;
   height: 48px;
   border: none;
   border-radius: 5px;
@@ -103,29 +105,22 @@ body {
 }
 
 .info-log {
-  margin-top: 2rem;
   color: #a5b4c9;
   font-size: 0.9rem;
   text-align: left;
-  border-top: 1px solid #2d3e50;
   padding-top: 1rem;
-
-  padding-right: 15px;
   width: 200%;
   max-width: fit-content;
-  /* Define a largura máxima */
   max-height: 300px;
   overflow-y: auto;
   word-wrap: break-word;
   position: relative;
-  margin-left: auto;
   margin-right: auto;
 }
 
-.separator {
-  display: block;
-  width: 100%;
+.line {
   border: none;
-  border-top: 1px solid #a5b4c9;
-  margin: 1rem 0;
+  height: 1px;
+  background-color: #a5b4c957;
+  margin-top: 2rem;
 }
