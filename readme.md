@@ -4,36 +4,73 @@ Este projeto é uma aplicação web que permite aos usuários fazer login e bloq
 
 ## Funcionalidades
 
-- **Página de Login**: Permite que os usuários façam login na aplicação utilizando seu nome de usuário e senha de aplicativo.
-- **Página de Informações de Log**: Exibe informações de log relacionadas às ações dos usuários na aplicação.
+- **Página de Login**: A página de login permite que os usuários façam login na aplicação utilizando seu nome de usuário e senha de aplicativo. O campo "Service" está desabilitado e exibe a instância `bsky.social`.
+
+- **Página Home (Aplicação)**: A página Home permite que os usuários bloqueiem perfis que utilizem uma palavra-chave específica. A interface é composta por um formulário onde o usuário pode inserir a palavra-chave desejada e um botão para bloquear as contas.
 
 ## Tecnologias Utilizadas
 
 - HTML
 - CSS
 - JavaScript (para futuras implementações)
-- Node.js e Express (para futuras implementações de backend)
+- Python
+- Flask Framework
 
 ## Estrutura do Projeto
+
+```plaintext
+app/
+|
+├── logs/
+│   ├── api_req.txt
+│   ├── blocked_accounts_log.txt
+│   ├── error_log.txt
+│   ├── werkzeug_log.txt
+static/
+├── assets/
+│   └── logo.svg
+├── css/
+│   ├── home.css
+│   └── index.css
+├── js/
+│   ├── home.js
+│   └── script.js
+templates/
+├── home.html
+├── index.html
+main.py
+readme.md
+requirements.txt
+```
 
 ## Instalação
 
 1. Clone o repositório para sua máquina local:
 
   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
+   git clone https://github.com/fzsdev/BlockSky_UNISA
    ```
 
 2. Navegue até o diretório do projeto:
 
 ```
-  cd seu-repositorio
+  cd BlockSky_UNISA
+```
+
+4. Crie uma ambiente e ative:
+
+```
+  python -m venv venv
+```
+
+```
+source venv/bin/activate
 ```
 
 3.Instale as dependências do projeto:
 
 ```
-  npm install  
+  pip install -r requirements.txt 
 ```
 
 ## Uso
@@ -41,24 +78,14 @@ Este projeto é uma aplicação web que permite aos usuários fazer login e bloq
 1. Inicie o servidor:
 
 ```
-  npm start
+ python main.py
 ```
 
 2. Abra o navegador:
 
 ```
-http://localhost:3000
+http://localhost:5000
 ```
-
-### Descrição das Páginas
-
-#### Página de Login (`index.html`)
-
-A página de login permite que os usuários façam login na aplicação utilizando seu nome de usuário e senha de aplicativo. O campo "Service" está desabilitado e exibe a instância `bsky.social`.
-
-#### Página de Informações de Log (`home.html`)
-
-A página de informações de log exibe informações relacionadas às ações dos usuários na aplicação. Esta página ainda está em desenvolvimento e será integrada com o backend para exibir dados reais.
 
 ---
 
