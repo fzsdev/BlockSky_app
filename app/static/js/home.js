@@ -1,9 +1,14 @@
+/* filepath: /home/felladev/Projetos/BlockSky_UNISA/app/static/js/home.js */
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('keyword-form').addEventListener('submit', async function (event) {
+  const keywordForm = document.getElementById('keyword-form');
+  const keywordInput = document.getElementById('keywords');
+  const keywordButton = document.querySelector('.keyword-button');
+
+  keywordForm.addEventListener('submit', async function (event) {
     event.preventDefault(); // Impede o envio padrão do formulário
 
     // Capturar o valor do campo de entrada keywords
-    const keyword = document.getElementById('keywords').value;
+    const keyword = keywordInput.value;
 
     // Criar o objeto JSON com a palavra-chave
     const keywordData = {
@@ -41,10 +46,18 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Erro ao bloquear palavra-chave. Por favor, tente novamente.');
     }
   });
+
+  // Adicionar evento de escuta para a tecla "Enter"
+  keywordInput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Impede o comportamento padrão
+      keywordButton.click(); // Aciona o clique no botão
+    }
+  });
 });
 
 /**
-* Formata o conteúdo do log para ter quebras de linha a cada 300 caracteres
+* Formata o conteúdo do log para ter quebras de linha a cada 120 caracteres
 * e adiciona uma linha de separação responsiva após cada mensagem.
 * @param {string} logContent - O conteúdo do log a ser formatado.
 * @returns {string} - O conteúdo do log formatado.
@@ -57,7 +70,7 @@ function formatLog(logContent) {
   lines.forEach(line => {
     if (line.startsWith('Timestamp:')) {
       if (currentMessage.length > 0) {
-        formattedLines.push(formatMessage(currentMessage.join(' ')));
+        formattedLines.push(currentMessage.join(' '));
         formattedLines.push('<hr class="separator">');
         currentMessage = [];
       }
@@ -66,7 +79,7 @@ function formatLog(logContent) {
   });
 
   if (currentMessage.length > 0) {
-    formattedLines.push(formatMessage(currentMessage.join(' ')));
+    formattedLines.push(currentMessage.join(' '));
     formattedLines.push('<hr class="separator">');
   }
 
@@ -74,12 +87,12 @@ function formatLog(logContent) {
 }
 
 /**
-* Formata uma mensagem para ter quebras de linha a cada 300 caracteres.
+* Formata uma mensagem para ter quebras de linha a cada 120 caracteres.
 * @param {string} message - A mensagem a ser formatada.
 * @returns {string} - A mensagem formatada.
 */
 function formatMessage(message) {
-  const maxLength = 300;
+  const maxLength = 120;
   const formattedMessage = [];
   for (let i = 0; i < message.length; i += maxLength) {
     formattedMessage.push(message.substring(i, i + maxLength));

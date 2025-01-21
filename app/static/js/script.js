@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('login-button').addEventListener('click', async function () {
+  const loginButton = document.getElementById('login-button');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const loadingElement = document.getElementById('loading');
+  const loginContainer = document.querySelector('.login-container');
+
+  loginButton.addEventListener('click', async function () {
+    // Mostrar o elemento de "loading" e adicionar a classe de desfoque ao login-container
+    loadingElement.style.display = 'flex';
+    loginContainer.classList.add('blur-background');
+
     // Capturar os dados dos campos username e password
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = usernameInput.value;
+    const password = passwordInput.value;
 
     // Criar o objeto JSON com os dados capturados
     const loginData = {
@@ -39,6 +49,20 @@ document.addEventListener('DOMContentLoaded', function () {
     } catch (error) {
       console.error('Erro ao realizar login:', error);
       alert('Erro ao realizar login. Por favor, tente novamente.');
+    } finally {
+      // Esconder o elemento de "loading" e remover a classe de desfoque do login-container
+      loadingElement.style.display = 'none';
+      loginContainer.classList.remove('blur-background');
     }
+  });
+
+  // Adicionar evento de escuta para a tecla "Enter" nos campos de entrada
+  [usernameInput, passwordInput].forEach(input => {
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Impede o comportamento padrão
+        loginButton.click(); // Aciona o clique no botão
+      }
+    });
   });
 });

@@ -9,9 +9,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 80vh;
   background-color: #161e27;
   color: #f1f3f5;
+  overflow: hidden;
+  /* Eliminar barras de rolagem */
 }
 
 .keyword-setup-container {
@@ -82,9 +84,16 @@ body {
   border: 1px solid #a5b4c9;
   border-radius: 5px;
   background-color: #161e27;
+  color: #fff;
   font-size: 1rem;
-  color: #bbb;
-  margin-bottom: 1.5rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  background-color: #161e27;
+  /* Manter a cor de fundo original */
+  color: #fff;
+  /* Manter a cor do texto original */
 }
 
 .keyword-button {
@@ -109,18 +118,29 @@ body {
   font-size: 0.9rem;
   text-align: left;
   padding-top: 1rem;
-  width: 200%;
-  max-width: fit-content;
-  max-height: 300px;
+  width: calc(100% - 5px);
+  /* Ajustar a largura para 100% menos 50px */
+  max-height: calc(100vh - 200px);
+  /* Ajustar a altura máxima para evitar barra de rolagem */
   overflow-y: auto;
   word-wrap: break-word;
-  position: relative;
-  margin-right: auto;
+  position: absolute;
+  left: 20px;
+  white-space: pre-wrap;
+  /* Preservar quebras de linha e espaços */
+  margin-right: 50px;
+  /* Adicionar uma margem de 50px à direita */
+  margin-bottom: 50px !important
 }
 
 .line {
   border: none;
   height: 1px;
   background-color: #a5b4c957;
-  margin-top: 2rem;
+  margin-top: 80px;
+  width: 100vw;
+  /* Ajustar a largura para 100% da viewport */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
