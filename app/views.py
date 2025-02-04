@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, session
 from atproto import Client, models, SessionEvent, Session as AtprotoSession
+from .models import db, User
 
 views = Blueprint("views", __name__)
 
@@ -36,12 +37,14 @@ def login():
         session["did"] = client.me.did
         session["session_string"] = client.export_session_string()
 
-        return (
-            jsonify({"success": True, "message": "Login realizado com sucesso."}),
-            200,
-        )
+        # Verificar se o usuário já existe no banco de dados
+        user = User.query.filter_by(username=username).first()
+        if user is None:
+            user = User(username=username)
+            user.set_password(app_password)
+            db.session.add(user)
+            db.session.commit()
+
+        return jsonify({"success": True}), 200
     except Exception as e:
-        return (
-            jsonify({"success": False, "message": f"Falha na autenticação: {str(e)}"}),
-            401,
-        )
+        return jsonify({"success": False, "message": str(e)}), 500
