@@ -1,13 +1,21 @@
 from flask import Flask
+from .views import views
+from .models import db
 
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "supersecretkey"  # Troque por uma chave secreta segura
+    app.config["SECRET_KEY"] = "your_secret_key"
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        "postgresql://username:password@localhost/dbname"
+    )
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    # Importar e registrar os blueprints
-    from .views import views
+    db.init_app(app)
 
-    app.register_blueprint(views, url_prefix="/")
+    app.register_blueprint(views)
+
+    with app.app_context():
+        db.create_all()
 
     return app
