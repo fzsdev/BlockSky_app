@@ -6,13 +6,18 @@ from flask_cors import CORS
 from flask_session import Session
 from atproto import Client, models, SessionEvent, Session as AtprotoSession
 from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from app import create_app
+
+# Carregar variáveis de ambiente do .env
+load_dotenv()
 
 app = create_app()
 
 # Configuração de Flask-Session
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SECRET_KEY"] = "supersecretkey"  # Troque por uma chave secreta segura
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "supersecretkey")
 
 # Diretório base
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -58,6 +63,13 @@ werkzeug_logger.addHandler(werkzeug_handler)
 
 # Remover o log do console
 logging.getLogger("werkzeug").propagate = False
+
+# Configuração de SQLAlchemy
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)  # Inicializar Flask-Migrate
 
 
 # Função para obter a sessão persistente
