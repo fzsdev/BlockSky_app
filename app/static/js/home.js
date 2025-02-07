@@ -1,4 +1,3 @@
-/* filepath: /home/felladev/Projetos/BlockSky_UNISA/app/static/js/home.js */
 document.addEventListener('DOMContentLoaded', function () {
   const keywordForm = document.getElementById('keyword-form');
   const keywordInput = document.getElementById('keywords');
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',  // Incluir credenciais na requisição
         body: JSON.stringify(keywordData)
       });
 
@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       // Buscar e exibir o conteúdo do arquivo de log
-      const logResponse = await fetch('http://localhost:5000/get_log');
+      const logResponse = await fetch('http://localhost:5000/get_log', {
+        credentials: 'include'  // Incluir credenciais na requisição
+      });
       const logData = await logResponse.json();
 
       if (logResponse.ok && logData.success) {

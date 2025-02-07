@@ -1,22 +1,12 @@
-from flask import Blueprint, render_template, request, jsonify, session
+from flask import Blueprint, request, jsonify, session
 from atproto import Client
 from .models import db, User
 
-views = Blueprint("views", __name__)
+auth = Blueprint("auth", __name__)
 
 
-@views.route("/")
-def index():
-    return render_template("index.html")
-
-
-@views.route("/home")
-def home():
-    return render_template("home.html")
-
-
-@views.route("/login", methods=["POST"])
-def login():
+@auth.route("/login", methods=["POST"])
+def login_user():
     data = request.get_json()
     username = data.get("username")
     app_password = data.get("password")
@@ -48,3 +38,9 @@ def login():
         return jsonify({"success": True}), 200
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
+
+
+@auth.route("/logout", methods=["POST"])
+def logout_user():
+    session.clear()
+    return jsonify({"success": True}), 200

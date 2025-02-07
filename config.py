@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente
+load_dotenv()
 
 
 class Config:
