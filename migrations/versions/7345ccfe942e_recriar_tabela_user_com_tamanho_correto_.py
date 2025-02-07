@@ -10,7 +10,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # Revisão e identificadores de downgrade
-revision = "nova_revision_id"
+revision = "7345ccfe942e"
 down_revision = "43c74097d663"
 branch_labels = None
 depends_on = None
