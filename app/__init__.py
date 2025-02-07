@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_session import Session
 from flask_cors import CORS
+from flask_talisman import Talisman
 from dotenv import load_dotenv
 import os
 from datetime import timedelta
@@ -13,6 +14,22 @@ load_dotenv()
 # Inicializar o banco de dados
 db = SQLAlchemy()
 migrate = Migrate()
+
+# Configuração de segurança do Talisman
+csp = {
+    "default-src": [
+        "'self'",
+        "https://stackpath.bootstrapcdn.com",  # Exemplo de CDN permitida
+    ],
+    "script-src": [
+        "'self'",
+        "'unsafe-inline'",  # Permitir scripts inline
+    ],
+    "style-src": [
+        "'self'",
+        "'unsafe-inline'",  # Permitir estilos inline
+    ],
+}
 
 
 def create_app():
@@ -41,9 +58,8 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     Session(app)
-    CORS(
-        app, supports_credentials=True
-    )  # Adicionar esta linha para configurar Flask-CORS
+    CORS(app, supports_credentials=True)
+    Talisman(app, content_security_policy=csp)  # Configurar Talisman com CSP
 
     # Registrar blueprints (rotas)
     from .routes import routes
