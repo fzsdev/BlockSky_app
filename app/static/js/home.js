@@ -4,50 +4,59 @@ document.addEventListener('DOMContentLoaded', function () {
   const keywordButton = document.querySelector('.keyword-button');
 
   keywordForm.addEventListener('submit', async function (event) {
-    event.preventDefault(); // Impede o envio padrão do formulário
+    event.preventDefault();
 
-    // Capturar o valor do campo de entrada keywords
     const keyword = keywordInput.value;
 
-    // Criar o objeto JSON com a palavra-chave
-    const keywordData = {
-      word: keyword
-    };
-
     try {
-      // Enviar a requisição POST ao backend
-      const response = await fetch('http://localhost:5000/block_word', {
+      const response = await fetch('http://127.0.0.1:5000/block_word', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',  // Incluir credenciais na requisição
-        body: JSON.stringify(keywordData)
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ word: keyword })
       });
 
       const data = await response.json();
 
-      // Tratar a resposta do servidor
-      if (!response.ok || !data.success) {
-        alert('Erro ao bloquear palavra-chave: ' + data.message);
+      if (response.status === 401) {
+        alert('Sessão expirada. Por favor, faça login novamente.');
+        return;
       }
 
-      // Buscar e exibir o conteúdo do arquivo de log
-      const logResponse = await fetch('http://localhost:5000/get_log', {
-        credentials: 'include'  // Incluir credenciais na requisição
-      });
-      const logData = await logResponse.json();
+      alert(data.message);
 
-      if (logResponse.ok && logData.success) {
-        const formattedLog = formatLog(logData.log);
-        document.getElementById('info-log').innerHTML = formattedLog;
-      } else {
-        document.getElementById('info-log').textContent = 'Erro ao carregar o log.';
+      if (data.success) {
+        // Atualizar logs apenas se sucesso
+        await updateLogs();
       }
+
     } catch (error) {
-      alert('Erro ao bloquear palavra-chave. Por favor, tente novamente.');
+      console.error('Erro:', error);
+      alert('Erro ao executar operação. Por favor, tente novamente.');
     }
   });
+
+  async function updateLogs() {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/get_log', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        console.error('Erro ao obter logs:', response.status);
+        return;
+      }
+      const data = await response.json();
+      if (data.success) {
+        const formattedLog = formatLog(data.log);
+        document.getElementById('info-log').innerHTML = formattedLog;
+      } else {
+        console.error('Erro ao obter logs:', data.message);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar logs:', error);
+    }
+  }
 
   // Adicionar evento de escuta para a tecla "Enter"
   keywordInput.addEventListener('keydown', function (event) {
@@ -66,14 +75,13 @@ document.addEventListener('DOMContentLoaded', function () {
 */
 function formatLog(logContent) {
   const lines = logContent.split('\n');
-  const formattedLines = [];
+  const allMessages = [];
   let currentMessage = [];
 
   lines.forEach(line => {
     if (line.startsWith('Timestamp:')) {
       if (currentMessage.length > 0) {
-        formattedLines.push(currentMessage.join(' '));
-        formattedLines.push('<hr class="separator">');
+        allMessages.push(currentMessage.join(' '));
         currentMessage = [];
       }
     }
@@ -81,9 +89,18 @@ function formatLog(logContent) {
   });
 
   if (currentMessage.length > 0) {
-    formattedLines.push(currentMessage.join(' '));
-    formattedLines.push('<hr class="separator">');
+    allMessages.push(currentMessage.join(' '));
   }
+
+  // Inverter a ordem, para que as recentes venham primeiro
+  allMessages.reverse();
+
+  // Construir o resultado com separadores
+  const formattedLines = [];
+  allMessages.forEach(msg => {
+    formattedLines.push(msg);
+    formattedLines.push('<hr class="separator">');
+  });
 
   return formattedLines.join('<br>');
 }

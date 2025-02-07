@@ -45,22 +45,30 @@ def save_session(session_string: str) -> None:
 
 @routes.route("/block_word", methods=["POST"])
 def block_word_route():
-    if "session_string" not in session:
-        return jsonify({"success": False, "message": "Usuário não autenticado."}), 401
+    # Debug da sessão
+    print("Session data:", dict(session))
+    session_string = session.get("session_string")
+    print("Session string:", session_string[:30] if session_string else None)
 
-    data = request.get_json()
-    word = data.get("word")
-
-    if not word:
+    if not session_string:
         return (
             jsonify(
-                {"success": False, "message": "A palavra a ser bloqueada é necessária."}
+                {
+                    "success": False,
+                    "message": "Sessão expirada. Por favor, faça login novamente.",
+                }
             ),
-            400,
+            401,
         )
 
     try:
-        client = init_client(session.get("session_string"))
+        data = request.get_json()
+        word = data.get("word")
+
+        if not word:
+            return jsonify({"success": False, "message": "Palavra inválida"}), 400
+
+        client = init_client(session_string)
 
         # Procurar por postagens contendo a palavra
         params = {"q": word, "limit": 10}
@@ -114,7 +122,7 @@ def block_word_route():
                 200,
             )
     except Exception as e:
-        logger.error(f"Erro ao bloquear contas: {e}")
+        print("Erro na rota block_word:", str(e))
         return (
             jsonify(
                 {"success": False, "message": f"Erro ao bloquear contas: {str(e)}"}
@@ -125,8 +133,22 @@ def block_word_route():
 
 @routes.route("/get_log", methods=["GET"])
 def get_log_route():
+    if "session_string" not in session:
+        return (
+            jsonify(
+                {"success": False, "message": "Sessão expirada. Faça login novamente."}
+            ),
+            401,
+        )
+
     try:
         log_file_path = os.path.join(log_blocked_directory, "blocked_accounts_log.txt")
+
+        # Criar arquivo se não existir
+        if not os.path.exists(log_file_path):
+            with open(log_file_path, "w", encoding="utf-8") as f:
+                f.write("")
+
         with open(log_file_path, "r", encoding="utf-8") as file:
             log_content = file.read()
         return jsonify({"success": True, "log": log_content}), 200
