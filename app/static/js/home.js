@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const keyword = keywordInput.value;
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/block_word', {
+      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/block_word', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -36,9 +36,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  keywordButton.addEventListener('click', async function () {
+    const inputWord = keywordInput.value.trim();
+    if (!inputWord) {
+      alert('Por favor, insira uma palavra.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/block_word', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ word: inputWord }),
+      });
+
+      if (!response.ok) {
+        console.error('Erro ao bloquear palavra:', response.status);
+        alert('Erro ao bloquear palavra. Por favor, tente novamente.');
+        return;
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Palavra bloqueada com sucesso.');
+        updateLogs();
+      } else {
+        console.error('Erro ao bloquear palavra:', data.message);
+        alert('Erro ao bloquear palavra. Por favor, tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert('Erro ao executar operação. Por favor, tente novamente.');
+    }
+  });
+
   async function updateLogs() {
     try {
-      const response = await fetch('http://127.0.0.1:5000/get_log', {
+      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/get_log', {
         method: 'GET',
         credentials: 'include'
       });

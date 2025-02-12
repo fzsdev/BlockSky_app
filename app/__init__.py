@@ -20,6 +20,7 @@ csp = {
     "default-src": [
         "'self'",
         "https://stackpath.bootstrapcdn.com",  # Exemplo de CDN permitida
+        "https://blocksky-app-3d752ea35673.herokuapp.com",  # Adicione o domínio do seu aplicativo Heroku
     ],
     "script-src": [
         "'self'",
@@ -28,6 +29,10 @@ csp = {
     "style-src": [
         "'self'",
         "'unsafe-inline'",  # Permitir estilos inline
+    ],
+    "connect-src": [
+        "'self'",
+        "https://blocksky-app-3d752ea35673.herokuapp.com",  # Adicione o domínio do seu aplicativo Heroku
     ],
 }
 
