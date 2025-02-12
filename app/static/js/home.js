@@ -3,13 +3,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const keywordInput = document.getElementById('keywords');
   const keywordButton = document.querySelector('.keyword-button');
 
+  // Definir a URL base dinamicamente
+  const baseUrl = window.location.hostname === 'blocksky.social' ? 'https://blocksky.social' : 'https://blocksky-app-3d752ea35673.herokuapp.com';
+
   keywordForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const keyword = keywordInput.value;
 
     try {
-      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/block_word', {
+      const response = await fetch(`${baseUrl}/block_word`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -44,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     try {
-      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/block_word', {
+      const response = await fetch(`${baseUrl}/block_word`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   async function updateLogs() {
     try {
-      const response = await fetch('https://blocksky-app-3d752ea35673.herokuapp.com/get_log', {
+      const response = await fetch(`${baseUrl}/get_log`, {
         method: 'GET',
         credentials: 'include'
       });
