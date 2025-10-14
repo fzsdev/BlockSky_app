@@ -12,7 +12,7 @@ Este projeto é uma aplicação web que permite aos usuários fazer login e bloq
 
 - HTML
 - CSS
-- JavaScript 
+- JavaScript
 - Python
 - Flask Framework
 
